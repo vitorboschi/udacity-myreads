@@ -1,25 +1,34 @@
 import React, { Component } from 'react';
+import { getAll } from './BooksAPI';
+import Book from './Book';
 import logo from './logo.svg';
+
 import './App.css';
 
 class App extends Component {
+  state = {
+    books: []
+  };
+
+  componentDidMount() {
+    getAll().then((data) => {
+      this.setState({books: data});
+    });
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
         </header>
+        <main>
+          <ul>
+            {this.state.books.map((book) => (
+              <Book book={book} />
+            )
+            )}
+          </ul>
+        </main>
       </div>
     );
   }

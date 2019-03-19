@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { getAll } from './BooksAPI';
-import Book from './Book';
+import BookShelf from './BookShelf';
 import logo from './logo.svg';
 
 import './App.css';
 
 class App extends Component {
   state = {
-    books: []
+    books: [],
+    shelves: ['currentlyReading', 'read', 'wantToRead']
   };
 
   componentDidMount() {
@@ -22,12 +23,9 @@ class App extends Component {
         <header className="App-header">
         </header>
         <main>
-          <ul>
-            {this.state.books.map((book) => (
-              <Book book={book} />
-            )
-            )}
-          </ul>
+            {this.state.shelves.map((shelf) => (
+              <BookShelf shelfName={shelf} books={this.state.books.filter(book => book.shelf === shelf)} />
+            ))}
         </main>
       </div>
     );

@@ -4,17 +4,13 @@ import BookShelf from './BookShelf';
 import BookSearch from './BookSearch';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import logo from './logo.svg';
+import { shelves } from './Shelves';
 
 import './App.css';
 
 class App extends Component {
   state = {
-    books: [],
-    shelves: [
-      {id: 'wantToRead', title: 'Want to Read'},
-      {id: 'currentlyReading', title: 'Currently Reading'},
-      {id: 'read', title: 'Read'},
-    ]
+    books: []
   };
 
   componentDidMount() {
@@ -33,8 +29,8 @@ class App extends Component {
               <h1>MyReads</h1>
             </header>
             <main>
-              {this.state.shelves.map((shelf) => (
-                <BookShelf shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
+              {shelves.map((shelf) => (
+                <BookShelf key={shelf.id} shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
               ))}
               <div className="open-search">
                 <Link to="/search">Add a book</Link>

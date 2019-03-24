@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { shelves } from './Shelves';
 
 function Book(props) {
   return (
@@ -8,10 +9,9 @@ function Book(props) {
         <div className="book-shelf-changer">
           <select>
             <option value="move" disabled>Move to...</option>
-            <option value="currentlyReading">Currently Reading</option>
-            <option value="wantToRead">Want to Read</option>
-            <option value="read">Read</option>
-            <option value="none">None</option>
+            {shelves.map(shelf => (
+              <option key={shelf.id} value={shelf.id}>{shelf.title}</option>
+            ))}
           </select>
         </div>
       </div>

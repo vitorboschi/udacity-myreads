@@ -16,7 +16,7 @@ function Book(props) {
         </div>
       </div>
       <div className="book-title">{props.book.title}</div>
-      <div className="book-authors">{props.book.authors[0]}</div>
+      {props.book.authors && props.book.authors.length > 0 && (<div className="book-authors">{props.book.authors[0]}</div>)}
     </div>
   )
 }

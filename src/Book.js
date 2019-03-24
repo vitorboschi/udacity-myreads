@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { shelves } from './Shelves';
 
 function Book(props) {
+  const book = props.book;
+  const authors = book.authors;
+
+  const availableShelves = shelves.filter(shelf => shelf.id !== book.shelf);
+
   return (
     <div className="book">
       <div className="book-top">
@@ -9,14 +14,14 @@ function Book(props) {
         <div className="book-shelf-changer">
           <select>
             <option value="move" disabled>Move to...</option>
-            {shelves.map(shelf => (
+            {availableShelves.map(shelf => (
               <option key={shelf.id} value={shelf.id}>{shelf.title}</option>
             ))}
           </select>
         </div>
       </div>
       <div className="book-title">{props.book.title}</div>
-      {props.book.authors && props.book.authors.length > 0 && (<div className="book-authors">{props.book.authors[0]}</div>)}
+      {authors && authors.length > 0 && (<div className="book-authors">{authors[0]}</div>)}
     </div>
   )
 }

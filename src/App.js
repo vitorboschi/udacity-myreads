@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { getAll } from './BooksAPI';
 import BookShelf from './BookShelf';
+import BookSearch from './BookSearch';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import logo from './logo.svg';
 
 import './App.css';
@@ -8,7 +10,11 @@ import './App.css';
 class App extends Component {
   state = {
     books: [],
-    shelves: ['currentlyReading', 'read', 'wantToRead']
+    shelves: [
+      {id: 'wantToRead', title: 'Want to Read'},
+      {id: 'currentlyReading', title: 'Currently Reading'},
+      {id: 'read', title: 'Read'},
+    ]
   };
 
   componentDidMount() {
@@ -19,15 +25,26 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-        </header>
-        <main>
-            {this.state.shelves.map((shelf) => (
-              <BookShelf shelfName={shelf} books={this.state.books.filter(book => book.shelf === shelf)} />
-            ))}
-        </main>
-      </div>
+      <Router className="App">
+        <Route exact path="/search" component={BookSearch} />
+        <Route exact path="/" render={() => (
+          <div>
+            <header className="list-books-title">
+              <h1>MyReads</h1>
+            </header>
+            <main>
+              {this.state.shelves.map((shelf) => (
+                <BookShelf shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
+              ))}
+              <div className="open-search">
+                <Link to="/search">Add a book</Link>
+              </div>
+            </main>
+          </div>
+        )
+        }
+      />
+      </Router>
     );
   }
 }

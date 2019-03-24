@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getAll } from './BooksAPI';
+import { getAll, update } from './BooksAPI';
 import BookShelf from './BookShelf';
 import BookSearch from './BookSearch';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -19,6 +19,28 @@ class App extends Component {
     });
   }
 
+  moveBookToShelf(book, shelf) {
+    update(book, shelf).then(resp => {
+      console.log(resp);
+      if (resp[shelf].includes(book.id)) {
+        //everything is fine. Lets update our collection
+        this.setState(state => {
+          const idx = state.books.findIndex(el => el.id === book.id);
+          state.books[idx].shelf = shelf;
+          return {books: state.books};
+        });
+      }
+      else {
+        console.warn("Cannot update collection correctly");
+        //trigger a full reload to make sure we are displaying up to date info to the user
+        getAll().then((data) => {
+          this.setState({books: data});
+        });
+
+      }
+    });
+  }
+
   render() {
     return (
       <Router className="App">
@@ -30,7 +52,7 @@ class App extends Component {
             </header>
             <main>
               {shelves.map((shelf) => (
-                <BookShelf key={shelf.id} shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
+                <BookShelf onShelfChange={this.moveBookToShelf.bind(this)} key={shelf.id} shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
               ))}
               <div className="open-search">
                 <Link to="/search">Add a book</Link>

@@ -39,7 +39,7 @@ class BookSearch extends Component {
 
                 </div>
               </div>
-              <BookShelf shelfName="Results" books={this.state.books} />
+              <BookShelf shelfName="Results" books={this.state.books} onShelfChange={this.props.onBookInsert}/>
             </div>
 
     );

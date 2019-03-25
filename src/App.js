@@ -19,6 +19,21 @@ class App extends Component {
     });
   }
 
+  insertBookInShelf(book, shelf) {
+    update(book, shelf).then(resp => {
+      if (resp[shelf].includes(book.id)) {
+        book.shelf = shelf;
+        this.setState(state => {
+          state.books.push(book);
+          return {books: state.books};
+        });
+      }
+      else {
+        console.log('Cannot insert book:', resp);
+      }
+    });
+  }
+
   moveBookToShelf(book, shelf) {
     update(book, shelf).then(resp => {
       console.log(resp);
@@ -44,7 +59,9 @@ class App extends Component {
   render() {
     return (
       <Router className="App">
-        <Route exact path="/search" component={BookSearch} />
+        <Route exact path="/search" render={() => (
+          <BookSearch onBookInsert={this.insertBookInShelf.bind(this)}/>
+        )}/>
         <Route exact path="/" render={() => (
           <div>
             <header className="list-books-title">

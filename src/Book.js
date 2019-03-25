@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { shelves } from './Shelves';
+import unknownThumb from './icons/unknown-thumb.png';
 
 class Book extends Component {
   changeShelf(ev) {
@@ -9,13 +10,16 @@ class Book extends Component {
   render() {
     const book = this.props.book;
     const authors = book.authors;
+    let thumbnail = unknownThumb;
+    if (book.imageLinks && book.imageLinks.smallThumbnail) {
+      thumbnail = book.imageLinks.smallThumbnail;
+    }
 
     const availableShelves = shelves.filter(shelf => shelf.id !== book.shelf);
-
     return (
       <div className="book">
         <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${book.imageLinks.smallThumbnail}')` }}></div>
+          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail}')` }}></div>
           <div className="book-shelf-changer">
             <select onChange={this.changeShelf.bind(this)} value={book.shelf}>
               <option value="move" disabled>Move to...</option>

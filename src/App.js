@@ -60,7 +60,7 @@ class App extends Component {
     return (
       <Router className="App">
         <Route exact path="/search" render={() => (
-          <BookSearch onBookInsert={this.insertBookInShelf.bind(this)}/>
+          <BookSearch onBookInsert={this.insertBookInShelf.bind(this)} currentCollection={this.state.books} />
         )}/>
         <Route exact path="/" render={() => (
           <div>

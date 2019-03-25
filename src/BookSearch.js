@@ -22,6 +22,9 @@ class BookSearch extends Component {
   }
 
   render() {
+      const currentIds = this.props.currentCollection.map(book => book.id);
+      const filteredList = this.state.books.filter(book => !currentIds.find(id => id === book.id ));
+
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -39,7 +42,7 @@ class BookSearch extends Component {
 
                 </div>
               </div>
-              <BookShelf shelfName="Results" books={this.state.books} onShelfChange={this.props.onBookInsert}/>
+              <BookShelf shelfName="Results" books={filteredList} onShelfChange={this.props.onBookInsert}/>
             </div>
 
     );

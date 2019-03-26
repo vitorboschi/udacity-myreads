@@ -21,7 +21,7 @@ class Book extends Component {
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail}')` }}></div>
           <div className="book-shelf-changer">
-            <select onChange={this.changeShelf.bind(this)} value={book.shelf}>
+            <select onChange={this.changeShelf.bind(this)} value={book.shelf || "move"}>
               <option value="move" disabled>Move to...</option>
               {shelves.map(shelf => (
                 <option key={shelf.id} value={shelf.id} disabled={shelf.id === book.shelf}>{shelf.title}</option>

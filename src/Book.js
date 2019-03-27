@@ -7,6 +7,10 @@ class Book extends Component {
     this.props.onShelfChange(this.props.book, ev.target.value);
   }
 
+  removeBook(ev) {
+    this.props.onShelfChange(this.props.book, 'none');
+  }
+
   render() {
     const book = this.props.book;
     const authors = book.authors;
@@ -20,6 +24,7 @@ class Book extends Component {
       <div className="book">
         <div className="book-top">
           <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url('${thumbnail}')` }}></div>
+          {book.shelf && (<button className="book-remover" aria-label="Remove book" onClick={(ev) => this.removeBook(ev)}></button>)}
           <div className="book-shelf-changer">
             <select onChange={this.changeShelf.bind(this)} value={book.shelf || "move"}>
               <option value="move" disabled>Move to...</option>

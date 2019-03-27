@@ -37,6 +37,16 @@ class App extends Component {
   moveBookToShelf(book, shelf) {
     update(book, shelf).then(resp => {
       console.log(resp);
+
+      //check if we are removing a book
+      if (shelf === 'none') {
+        this.setState(state => ({
+          books: state.books.filter(el => el.id !== book.id)
+        }));
+        return;
+      }
+
+      //no, so we have moved it
       if (resp[shelf].includes(book.id)) {
         //everything is fine. Lets update our collection
         this.setState(state => {

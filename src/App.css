@@ -163,6 +163,27 @@ button:active {
   align-items: flex-end;
 }
 
+.book-remover {
+  position: absolute;
+  left: 0;
+  bottom: -10px;
+  width: 40px;
+  height: 40px;
+  background: transparent;
+  background-image: url('./icons/remove.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 40px;
+  border: 0;
+  cursor: pointer;
+}
+
+.book-remover:hover {
+  width: 45px;
+  height: 45px;
+  background-size: 45px;
+}
+
 .book-shelf-changer {
   position: absolute;
   right: 0;

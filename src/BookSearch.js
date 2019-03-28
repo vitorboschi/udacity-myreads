@@ -13,8 +13,13 @@ class BookSearch extends Component {
     const query = ev.target.value;
 
     this.setState({query});
-    search(query).then(books => {
-      this.setState({books});
+    search(query).then(answer => {
+      if (!answer.error) {
+        this.setState({books: answer});
+      }
+      else {
+        this.setState({books: []});
+      }
     }).catch(error => {
         console.warn("Cannot search books!");
         console.log(error);

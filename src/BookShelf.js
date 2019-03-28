@@ -6,6 +6,7 @@ function BookShelf(props) {
     <div className="bookshelf">
       <h2 className="bookshelf-title">{props.shelfName}</h2>
       <div className="bookshelf-books">
+        {props.books.length > 0 && (
         <ol className="books-grid">
           {props.books.map((book) => (
             <li key={book.id}>
@@ -13,6 +14,10 @@ function BookShelf(props) {
             </li>
           ))}
         </ol>
+        )}
+        {props.books.length == 0 && (
+          <h3>Empty</h3>
+        )}
       </div>
     </div>
   );

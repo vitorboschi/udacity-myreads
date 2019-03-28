@@ -13,13 +13,21 @@ class App extends Component {
     books: []
   };
 
-  componentDidMount() {
-    getAll().then((data) => {
-      this.setState({books: data});
-    });
+  getAllBooks = () => {
+    getAll()
+      .then((data) => {
+        this.setState({books: data});
+      })
+      .catch((error) => {
+        this.setState({errorMessage: true});
+      });
   }
 
-  insertBookInShelf(book, shelf) {
+  componentDidMount() {
+    this.getAllBooks();
+  }
+
+  insertBookInShelf = (book, shelf) => {
     update(book, shelf).then(resp => {
       if (resp[shelf].includes(book.id)) {
         book.shelf = shelf;
@@ -28,13 +36,13 @@ class App extends Component {
           return {books: state.books};
         });
       }
-      else {
-        console.log('Cannot insert book:', resp);
-      }
+    })
+    .catch(error => {
+      this.setState({errorMessage: true});
     });
   }
 
-  moveBookToShelf(book, shelf) {
+  moveBookToShelf = (book, shelf) => {
     update(book, shelf).then(resp => {
       console.log(resp);
 
@@ -56,21 +64,21 @@ class App extends Component {
         });
       }
       else {
-        console.warn("Cannot update collection correctly");
         //trigger a full reload to make sure we are displaying up to date info to the user
-        getAll().then((data) => {
-          this.setState({books: data});
-        });
-
+        this.getAllBooks()
       }
     });
   }
 
   render() {
+    if (this.state.errorMessage) {
+      return <p>Please try again later.</p>
+    }
+
     return (
       <Router className="App">
         <Route exact path="/search" render={() => (
-          <BookSearch onBookInsert={this.insertBookInShelf.bind(this)} currentCollection={this.state.books} />
+          <BookSearch onBookInsert={this.insertBookInShelf} currentCollection={this.state.books} />
         )}/>
         <Route exact path="/" render={() => (
           <div>
@@ -79,7 +87,7 @@ class App extends Component {
             </header>
             <main>
               {shelves.map((shelf) => (
-                <BookShelf onShelfChange={this.moveBookToShelf.bind(this)} key={shelf.id} shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
+                <BookShelf onShelfChange={this.moveBookToShelf} key={shelf.id} shelfName={shelf.title} books={this.state.books.filter(book => book.shelf === shelf.id)} />
               ))}
               <div className="open-search">
                 <Link to="/search">Add a book</Link>
